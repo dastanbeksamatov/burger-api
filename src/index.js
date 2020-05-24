@@ -43,7 +43,7 @@ app.get('/ping', (_req, res) => {
 });
 
 // register routers
-app.use('/burgers', burgerRouter);
+app.use('/api/burgers', burgerRouter);
 app.use('/', swaggerUi.serve, swaggerUi.setup((swaggerDoc)));
 
 // register middlewares
