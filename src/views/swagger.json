@@ -13,7 +13,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "https://damp-cove-01178.herokuapp.com/",
+  "host": "damp-cove-01178.herokuapp.com",
   "basePath": "/",
   "tags": [
     {
