@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const logger = require('../utils/logger');
 
 mongoose.set('useFindAndModify', true);
 
@@ -37,26 +36,19 @@ const BurgerSchema = mongoose.Schema({
   }
 });
 
+BurgerSchema.index({ name: 'text' });
+
 class BurgerClass {
 
-  static async getByName(burger_name) {
-    try{
-      const burger = await this.find({ name: burger_name });
-      return burger;
-    }
-    catch(e){
-      logger.error(e);
-    }
-  }
-
-  static async list({ offset, limit, burger_name, tag_name, origin_name }) {
+  static async list({ offset, limit, burger_name, tag_name, origin_name, rating, ingredient }) {
     // conditionally creates properties of the query object
     const query = {
-      ...(burger_name && { name: burger_name }),
+      ...(burger_name && { $text: { $search: burger_name } }),
       ...(tag_name && { tags: { $in : [`${tag_name}`] } }),
-      ...(origin_name && { origin: origin_name })
+      ...(origin_name && { origin: origin_name }),
+      ...(rating) && { rating: { $gt: rating-1 } },
+      ...(ingredient) && { ingredients: { $in: [`${ingredient}`] } }
     };
-    console.log(query);
     const burgers = await this.find(query)
       .sort({ rating: -1 })
       .skip((offset-1) * 10)
@@ -79,7 +71,7 @@ class BurgerClass {
 
 BurgerSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject._id = returnedObject._id.toString();
+    returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
   }
