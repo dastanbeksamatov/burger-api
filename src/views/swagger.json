@@ -1,0 +1,240 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a simple burger store. Explore different types of burgers and their recipes",
+    "version": "1.0.0",
+    "title": "Burger Store",
+    "contact": {
+      "email": "dastanbeksamatov@gmail.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:3005",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "burger",
+      "description": "Everything about burgers"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/burgers": {
+      "post": {
+        "tags": [
+          "post"
+        ],
+        "summary": "Add a new burger to the store",
+        "description": "",
+        "operationId": "addBurger",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "BUrger object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BurgerPost"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "get"
+        ],
+        "summary": "Get a list of burgers",
+        "description": "By default lists first 10 burgers sorted by rating",
+        "operationId": "getBurgers",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "description": "Page number"
+          },
+          {
+            "in": "query",
+            "name": "per_page",
+            "type": "integer",
+            "description": "Items per page"
+          },
+          {
+            "in": "query",
+            "name": "min_rating",
+            "type": "integer",
+            "description": "Returns burgers with ratings greater than or equal to given value"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "type": "string",
+            "description": "Name of the burger. This query performs a fuzzy search, partial matches are valid"
+          },
+          {
+            "in": "query",
+            "name": "tag",
+            "type": "string",
+            "description": "Returns burgers which include given tag name"
+          },
+          {
+            "in": "query",
+            "name": "ingredient",
+            "type": "string",
+            "description": "Returns burgers which include given ingredient "
+          },
+          {
+            "in": "query",
+            "name": "origin",
+            "type": "string",
+            "description": "Origin of the burger"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of burgers"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Burger not found"
+          }
+        }
+      }
+    },
+    "/burgers/{burgerId}": {
+      "get": {
+        "tags": [
+          "get"
+        ],
+        "summary": "Find burger by ID",
+        "description": "Returns a single burger for valid id. You can use ids returned from previous GET request",
+        "operationId": "getBurgerById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "burgerId",
+            "in": "path",
+            "description": "ID of burger to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/BurgerGet"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Burger not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BurgerPost": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ingredients": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "origin": {
+          "type": "string",
+          "description": "Origin of burger"
+        },
+        "imgUrl": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Burger"
+      }
+    },
+    "BurgerGet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BurgerPost"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
