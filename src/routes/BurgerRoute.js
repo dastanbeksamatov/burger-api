@@ -1,4 +1,4 @@
-const Burger = require('../../models/Burger');
+const Burger = require('../models/Burger');
 
 const getBurgers = async (request, response) => {
   // page is 1 and per_page is 10, if not specified by query

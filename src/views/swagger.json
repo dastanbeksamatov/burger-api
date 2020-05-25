@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is a simple burger store. Explore different types of burgers and their recipes",
+    "description": "This is a simple burger store. Explore different types of burgers and their recipes. NOTE: Change scheme to HTTPS if api is not working as intended",
     "version": "1.0.0",
     "title": "Burger Store",
     "contact": {
@@ -22,8 +22,8 @@
     }
   ],
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
     "/api/burgers": {
@@ -44,7 +44,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "BUrger object that needs to be added to the store",
+            "description": "Burger object that needs to be added to the store. Feel free to remove/add ingredients if you have allergy or just don't like them",
             "required": true,
             "schema": {
               "$ref": "#/definitions/BurgerPost"
@@ -170,10 +170,12 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "Big Kahuna Burger"
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "example": "Famous burger from Pulp Fiction"
         },
         "rating": {
           "type": "integer",
@@ -181,22 +183,26 @@
         },
         "ingredients": {
           "type": "array",
+          "example": ["Onions", "pickles", "tomato", "burger", "bun", "ketchup", "lettuce", "cheese"],
           "items": {
             "type": "string"
           }
         },
         "tags": {
           "type": "array",
+          "example": ["cool", "iconic"],
           "items": {
             "type": "string"
           }
         },
         "origin": {
           "type": "string",
+          "example": "Mexico",
           "description": "Origin of burger"
         },
         "imgUrl": {
-          "type": "string"
+          "type": "string",
+          "example": "https://bigkahuna.com/picture"
         }
       },
       "xml": {
