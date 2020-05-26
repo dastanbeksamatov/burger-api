@@ -10,7 +10,7 @@ const mWare = require('./utils/middleware');
 const app = express();
 
 app.use(helmet());
-
+app.use(mWare.rateLimiter);
 // to log the api requests in console
 morgan.token('body', (req) => {
   return JSON.stringify(req.body);

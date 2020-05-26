@@ -93,6 +93,17 @@ describe('With non-empty DB', () => {
       expect(body.map(b => b.name)).toContain(helper.burgerToAdd.name);
     });
   });
+  describe('Rate limiter works', () => {
+    test('Throws an error if ip exceeds 100 requests in an hour', async () => {
+      let returnBurger = null;
+      const limit = 100;
+      for (var i=0; i<limit; i++){
+        returnBurger = await api.get('/api/burgers');
+      }
+      expect(returnBurger.header.connection).toBe('close');
+      expect(returnBurger.text).toBe('You have exceeded the 100 requests in 24 hrs limit!');
+    });
+  });
   afterAll(async done => {
     await mongoose.connection.close();
     done();

@@ -1,3 +1,5 @@
+const rateLimit = require('express-rate-limit');
+
 const unknownEndpoint = (request, response) => {
   response.status(404).send('404 Not Found');
 };
@@ -12,7 +14,15 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
+const rateLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 100,
+  message: 'You have exceeded the 100 requests in 24 hrs limit!',
+  headers: true,
+});
+
 module.exports = {
   unknownEndpoint,
-  errorHandler
+  errorHandler,
+  rateLimiter
 };
