@@ -10,7 +10,7 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology
     logger.info('connected to MongoDB server');
   })
   .catch(error => {
-    logger.error('Unable to connect to MongoDB '+ error.message);
+    logger.error('Can not to connect to MongoDB '+ error.message);
   });
 // run server
 app.listen(PORT, () => {
